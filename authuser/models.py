@@ -29,6 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('dirección email'), unique=True)
     name = models.CharField(_('nombre'), max_length=255, blank=True)
     last_name = models.CharField(_('apellido'), max_length=255, blank=True)
+    username = models.CharField(_('nombre de usuario'), max_length=255, blank=True)
     phone_number = models.CharField(_('número de teléfono'), max_length=20, blank=True)
     #profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     is_superuser = models.BooleanField(default=False)
