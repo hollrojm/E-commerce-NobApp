@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    
+    'authuser',
 ]
 
 MIDDLEWARE = [
@@ -273,3 +273,4 @@ JAZZMIN_SETTINGS = {
     # Add a language dropdown into the admin
     #"language_chooser": True,
 }
+AUTH_USER_MODEL = 'authuser.User'
