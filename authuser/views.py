@@ -26,33 +26,35 @@ def register_view(request):
     return render(request, 'authuser/sign-up.html', context)
 
 def login_view(request):
-   
-   if request.user.is_authenticated:
+    if request.user.is_authenticated:
        messages.info(request, 'Ya has iniciado sesión')
        return redirect('core:index')
-   if request.method == 'POST':
-       email = request.POST.get('email')
-       password = request.POST.get('password')
+    
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
-       try:
-                user = User.objects.get(email=email)
-       except:
-             messages.error(request, f'Usuario {email} no encontrado')
+        try:
+            user = User.objects.get(email=email)
+        except:
+            messages.error(request, f'Usuario {email} no encontrado')
         
-       user = authenticate(email=email, password=password)
-       if user is not None:
+        user = authenticate(email=email, password=password)
+       
+        if user is not None:
            login(request, user)
            messages.success(request, f' Bienvenido {user.name}!')
-       else:
+        else:
             messages.warning(request, f'Usuario o contraseña incorrectos')
 
-   context = {} 
+    context = {} 
     
-   return render(request, 'authuser/sign-in.html', context)
+    return render(request, 'authuser/sign-in.html', context)
 
 
          
 
 def logout_view(request):
     logout(request)
-    return redirect('core:index')
+    messages.success(request, 'Has cerrado sesión')
+    return redirect('sign-in')
