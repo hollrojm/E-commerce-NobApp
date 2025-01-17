@@ -3,8 +3,10 @@ from authuser.forms import UserRegistrationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.conf import settings
+from authuser.models import User
 
-User = settings.AUTH_USER_MODEL
+
+#User = settings.AUTH_USER_MODEL
 
 def register_view(request):
     if request.method == 'POST':
@@ -36,20 +38,22 @@ def login_view(request):
 
         try:
             user = User.objects.get(email=email)
+            user = authenticate(email=email, password=password)
+       
+            if user is not None:
+                login(request, user)
+                messages.success(request, f' Bienvenido {user.name}!')
+                return redirect('core:index')
+            else:
+                messages.warning(request, f'Usuario o contraseña incorrectos')
+
         except:
             messages.error(request, f'Usuario {email} no encontrado')
         
-        user = authenticate(email=email, password=password)
-       
-        if user is not None:
-           login(request, user)
-           messages.success(request, f' Bienvenido {user.name}!')
-        else:
-            messages.warning(request, f'Usuario o contraseña incorrectos')
-
-    context = {} 
+        
     
-    return render(request, 'authuser/sign-in.html', context)
+    
+    return render(request, 'authuser/sign-in.html')
 
 
          
