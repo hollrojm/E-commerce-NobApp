@@ -75,6 +75,7 @@ class Vendor(models.Model):
     authentic_rating = models.FloatField(_('calificación auténtica'))(default=4.5)
     days_return = models.IntegerField(_('días de devolución'))(default=30)
     warranty = models.CharField(_('garantía'))(max_length=100, default='Garantía de 6 meses')
+    website = models.URLField(_('sitio_web'))(max_length=100, default='https://www.example.com')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -104,7 +105,6 @@ class Product(models.Model):
     product_status = models.CharField(choices=STATUS, default='en_revisión', max_length=20)
     status = models.BooleanField(_('estado'), default=True)
     featured = models.BooleanField(_('destacado'), default=False)
-    rating = models.CharField(choices=RATING, default='★★★☆☆', max_length=5)
     sku = ShortUUIDField(unique=True, length=4, max_length=20, prefix='sku_', alphabet='1234567890')
     digital = models.BooleanField(_('digital'), default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -142,4 +142,89 @@ class ProductImages(models.Model):
         verbose_name = _('imagen_producto')
         verbose_name_plural = _('imagenes_productos')
 
+  ##############################Cart  Order, OrderItems, and address############################################
+
     
+class CartOrder(models.Model):
+    cid = ShortUUIDField(unique=True, length=10, max_length=20, prefix='cart_', alphabet='abcdefgh12345')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    price = models.DecimalField(_('precio'), max_digits=10, decimal_places=2, default=1.99)
+    paid_status= models.BooleanField(_('pago_seguimiento'), default=False)
+    product_status = models.CharField(choices=STATUS_CHOICES, default='procesando', max_length=30)
+    order_date = models.DateTimeField(auto_now_add=True)
+    
+
+    class Meta:
+        verbose_name = _('pedido_carrito')
+        verbose_name_plural = _('pedidos_carrito')
+
+    
+   
+   
+   
+class CartOrderItems(models.Model):
+    order = models.ForeignKey(CartOrder, on_delete=models.CASCADE)
+    product_status = models.CharField(max_length=200)
+    item = models.CharField(max_length=200)
+    image = models.CharField(max_length=200)
+    quantity = models.IntegerField(default=0)
+    price = models.DecimalField(_('precio'), max_digits=10, decimal_places=2, default=1.99)
+    total = models.DecimalField(_('total'), max_digits=10, decimal_places=2, default=1.99)
+
+    class Meta:
+        verbose_name = _('pedido_carrito_item')
+        verbose_name_plural = _('pedidos_carrito_items')
+
+    def order_image(self):
+        return mark_safe(f'<img src="/media/{self.image}" width="50" height="50" />')
+
+   
+  ##############################Product Review, wishlist, address############################################
+
+class ProductReview(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    rating = models.IntegerField(choices=RATING, default='★★★☆☆', max_length=None)
+    review = models.TextField(_('revisión'))()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _('revisión_producto')
+        verbose_name_plural = _('revisiones_producto')
+
+    def __str__(self):
+        return self.product.product_title
+    
+    def get_rating(self):
+        return self.rating
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _('lista_deseos')
+        verbose_name_plural = _('listas_deseos')
+
+    def __str__(self):
+        return self.product.product_title
+
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    address = models.CharField(_('dirección'))(max_length=255, null=True, blank=True)
+    status = models.BooleanField(_('estado'), default=False)
+    city = models.CharField(_('ciudad'))(max_length=100, null=True, blank=True)
+    state = models.CharField(_('estado'))(max_length=100,null=True, blank=True)
+    country = models.CharField(_('país'))(max_length=100, null=True, blank=True)
+    zip_code = models.CharField(_('código postal'))(max_length=10,null=True, blank=True)
+    phone = models.CharField(_('teléfono'))(max_length=20, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _('dirección')
+        verbose_name_plural = _('direcciones')
+
