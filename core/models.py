@@ -9,25 +9,22 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 STATUS_CHOICES = (
-    ('Activo', 'activo' ),
-    ('Active','active'),
-    ('inactive', 'inactivo'),
-    ('Inactive','Inactivo'),
-    ('processing', 'procesando'),
-    ('Processing','Procesando'),
-    ('delivered', 'entregado'),
-    ('Delivered','Entregado'),
+    ('Active', _('Activo') ),
+    ('Inactive',_('Inactivo')),
+    ('Processing', _('Procesando')),
+    ('Delivered',_('Entregado')),
 )
 
 STATUS = (
-    ('draft', 'borrador'),( 'Draft','Borrador'),
-    ('disabled', 'deshabiltado'),( 'Disabled','Deshabilitado'),
-    ('rejected', 'rechazado'),( 'Rejected','Rechazado'),
-    ('approved', 'aprobado'),( 'Approved','Aprobado'),
-    ('pending', 'pendiente'),( 'Pending','Pendiente'),
-    ('published', 'publicado'),( 'Published','Publicado'),
-    ('unpublished', 'no publicado'),( 'Unpublished','No publicado'),
-    ('in_review', 'en_revisión'),( 'In_Review','En_Revisión'),
+    
+    ( 'Draft',_('Borrador')),
+    ( 'Disabled',_('Deshabilitado')),
+    ( 'Rejected',_('Rechazado')),
+    ( 'Approved',_('Aprobado')),
+    ( 'Pending',_('Pendiente')),
+    ( 'Published',_('Publicado')),
+    ( 'Unpublished',_('No publicado')),
+    ( 'InReview',_('En Revisión')),
 )
 RATING = (
     ('1', '★☆☆☆☆'),
@@ -108,7 +105,7 @@ class Product(models.Model):
     tags = models.ForeignKey(Tags, on_delete=models.SET_NULL, null=True)
     in_stock = models.BooleanField(_('en_stock'), default=True)
     stock = models.IntegerField(_('stock'))
-    product_status = models.CharField(choices=STATUS, default='en_revisión', max_length=20)
+    product_status = models.CharField(choices=STATUS, default='En revisión', max_length=20)
     status = models.BooleanField(_('estado'), default=True)
     featured = models.BooleanField(_('destacado'), default=False)
     sku = ShortUUIDField(unique=True, length=4, max_length=20, prefix='sku_', alphabet='1234567890')
@@ -156,7 +153,7 @@ class CartOrder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     price = models.DecimalField(_('precio'), max_digits=10, decimal_places=2, default=1.99)
     paid_status= models.BooleanField(_('pago_seguimiento'), default=False)
-    product_status = models.CharField(choices=STATUS_CHOICES, default='procesando', max_length=30)
+    product_status = models.CharField(choices=STATUS_CHOICES, default='Procesando', max_length=30)
     order_date = models.DateTimeField(auto_now_add=True)
     
 
@@ -235,5 +232,5 @@ class Address(models.Model):
         verbose_name = _('dirección')
         verbose_name_plural = _('direcciones')
     
-    
+
 
