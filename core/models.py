@@ -65,28 +65,29 @@ class Tags(models.Model):
     def __str__(self):
         return self.title
 
-class Vendor(models.Model):
+class Vendor (models.Model):
     vid = ShortUUIDField(unique=True, length=10, max_length=20, prefix='ven_', alphabet='abcdefgh12345')
-    vendor_name = models.CharField(_('Empresa'),max_length=100, default='Nombre del proveedor')
-    logo = models.ImageField(_('logo'),upload_to=user_directory_path, default='proveedor.jpg')
-    description = models.TextField(_('descripción'),null=True, blank=True, default='Descripción del proveedor')
-    address = models.CharField(_('dirección'),max_length=255, default='Calle 6 sur # 71d - 77')
-    contact = models.CharField(_('contacto'),max_length=100, default='+57 (123) 4567890')
-    chat_resp_time = models.CharField(_('tiempo de respuesta'),max_length=100, default='En menos de 24 horas')
-    shipping_time = models.CharField(_('tiempo de envío'),max_length=100, default='De 3 a 5 días hábiles')
-    shipping_policy = models.TextField(_('política de envío'),null=True, blank=True)
-    authentic_rating = models.FloatField(_('calificación auténtica'),default=4.5)
-    days_return = models.IntegerField(_('días de devolución'),default=30)
-    warranty = models.CharField(_('garantía'),max_length=100, default='Garantía de 6 meses')
-    website = models.URLField(_('sitio_web'),max_length=100, default='https://www.example.com')
+    vendor_name = models.CharField(_('Vendedor'),max_length=100, default='Nombre del proveedor')
+    logo = models.ImageField(_('Logo'),upload_to=user_directory_path, default='proveedor.jpg')
+    description = models.TextField(_('Descripción'),null=True, blank=True, default='Descripción del proveedor')
+    address = models.CharField(_('Dirección'),max_length=255, default='Calle 6 sur # 71d - 77')
+    contact = models.CharField(_('Contacto'),max_length=100, default='+57 (123) 4567890')
+    chat_resp_time = models.CharField(_('Tiempo de respuesta'),max_length=100, default='En menos de 24 horas')
+    shipping_time = models.CharField(_('Tiempo de envío'),max_length=100, default='De 3 a 5 días hábiles')
+    shipping_policy = models.TextField(_('Política de envío'),null=True, blank=True)
+    authentic_rating = models.FloatField(_('Calificación auténtica'),default=4.5)
+    days_return = models.IntegerField(_('Días de devolución'),default=30)
+    warranty = models.CharField(_('Garantía'),max_length=100, default='Garantía de 6 meses')
+    website = models.URLField(_('Sitio web'),max_length=100, default='https://www.example.com')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        verbose_name = _('proveedor')
-        verbose_name_plural = _('proveedores')
+        
+        verbose_name = _('Vendedor')
+        verbose_name_plural = _('Vendedores')
 
     def vendor_logo(self):
         return mark_safe(f'<img src="{self.logo.url}" width="100" height="100" />')
@@ -105,7 +106,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     #tags = models.ForeignKey(Tags, on_delete=models.SET_NULL, null=True)
     in_stock = models.BooleanField(_('En Stock'), default=True)
-    stock = models.IntegerField(_('stock'))
+    stock = models.IntegerField(_('Stock'))
     product_status = models.CharField(choices=STATUS, default='En revisión', max_length=20)
     status = models.BooleanField(_('Estado'), default=True)
     featured = models.BooleanField(_('Destacado'), default=False)
@@ -116,11 +117,11 @@ class Product(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(Vendor ,on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = _('producto')
-        verbose_name_plural = _('productos')
+        verbose_name = _('Producto')
+        verbose_name_plural = _('Productos')
 
     def product_image(self):
         return mark_safe(f'<img src="{self.image.url}" width="50" height="50" />')
@@ -137,14 +138,14 @@ class Product(models.Model):
     
 
 class ProductImages(models.Model):
-    image = models.ImageField(_('imagen_producto'),upload_to='product-images', default='product.jpg')
+    image = models.ImageField(_('Imagen Producto'),upload_to='product-images', default='product.jpg')
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _('imagen_producto')
-        verbose_name_plural = _('imagenes_productos')
+        verbose_name = _('Imagen del producto')
+        verbose_name_plural = _('Imagenes del producto')
 
   ##############################Cart  Order, OrderItems, and address############################################
 
@@ -152,15 +153,15 @@ class ProductImages(models.Model):
 class CartOrder(models.Model):
     cid = ShortUUIDField(unique=True, length=4, max_length=20, prefix='cart_', alphabet='abcdefgh12345')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    price = models.DecimalField(_('precio'), max_digits=10, decimal_places=2, default=1.99)
-    paid_status= models.BooleanField(_('pago_seguimiento'), default=False)
+    price = models.DecimalField(_('Precio'), max_digits=10, decimal_places=2, default=1.99)
+    paid_status= models.BooleanField(_('Seguimiento de Pago'), default=False)
     product_status = models.CharField(choices=STATUS_CHOICES, default='Procesando', max_length=30)
     order_date = models.DateTimeField(auto_now_add=True)
     
 
     class Meta:
-        verbose_name = _('pedido_carrito')
-        verbose_name_plural = _('pedidos_carrito')
+        verbose_name = _('Pedido en  Carrito')
+        verbose_name_plural = _('Pedidos en Carrito')
 
     
    
@@ -168,17 +169,17 @@ class CartOrder(models.Model):
    
 class CartOrderItems(models.Model):
     order = models.ForeignKey(CartOrder, on_delete=models.CASCADE)
-    invoce_number = models.CharField(_('número_factura'),max_length=200, default='Número de factura')
+    invoce_number = models.CharField(_('Número Factura'),max_length=200, default='Número de factura')
     product_status = models.CharField(max_length=200)
     item = models.CharField(max_length=200)
     image = models.CharField(max_length=200)
     quantity = models.IntegerField(default=0)
-    price = models.DecimalField(_('precio'), max_digits=10, decimal_places=2, default=1.99)
-    total = models.DecimalField(_('total'), max_digits=10, decimal_places=2, default=1.99)
+    price = models.DecimalField(_('Precio'), max_digits=10, decimal_places=2, default=1.99)
+    total = models.DecimalField(_('Total'), max_digits=10, decimal_places=2, default=1.99)
 
     class Meta:
-        verbose_name = _('pedido_carrito_item')
-        verbose_name_plural = _('pedidos_carrito_items')
+        verbose_name = _('Item Pedido Carrito_')
+        verbose_name_plural = _('Items Pedidos carrito')
 
     def order_image(self):
         return mark_safe(f'<img src="/media/{self.image}" width="50" height="50" />')
@@ -190,13 +191,13 @@ class ProductReview(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     rating = models.IntegerField(choices=RATING, default='★★★☆☆', max_length=None)
-    review = models.TextField(_('revisión'),)
+    review = models.TextField(_('Revisión'),)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _('revisión_producto')
-        verbose_name_plural = _('revisiones_producto')
+        verbose_name = _('Producto En Revisión')
+        verbose_name_plural = _('Producto En Revision')
 
     def __str__(self):
         return self.product.product_title
@@ -211,27 +212,26 @@ class Wishlist(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _('lista_deseos')
-        verbose_name_plural = _('listas_deseos')
+        verbose_name = _('Lista de Deseos')
 
     def __str__(self):
         return self.product.product_title
 
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    address = models.CharField(_('dirección'),max_length=255, null=True, blank=True)
-    status = models.BooleanField(_('estado'), default=False)
-    city = models.CharField(_('ciudad'),max_length=100, null=True, blank=True)
-    state = models.CharField(_('estado'),max_length=100,null=True, blank=True)
-    country = models.CharField(_('país'),max_length=100, null=True, blank=True)
-    zip_code = models.CharField(_('código postal'),max_length=10,null=True, blank=True)
-    phone = models.CharField(_('teléfono'),max_length=20, null=True, blank=True)
+    address = models.CharField(_('Dirección'),max_length=255, null=True, blank=True)
+    status = models.BooleanField(_('Estado'), default=False)
+    city = models.CharField(_('Ciudad'),max_length=100, null=True, blank=True)
+    state = models.CharField(_('Departamento'),max_length=100,null=True, blank=True)
+    country = models.CharField(_('País'),max_length=100, null=True, blank=True)
+    zip_code = models.CharField(_('Código Postal'),max_length=10,null=True, blank=True)
+    phone = models.CharField(_('Teléfono'),max_length=20, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _('dirección')
-        verbose_name_plural = _('direcciones')
+        verbose_name = _('Dirección')
+        verbose_name_plural = _('Direcciones')
     
 
 
