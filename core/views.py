@@ -30,3 +30,17 @@ def product_list_view(request):
 
     except Exception as e:
         return HttpResponse(f"Error: {str(e)}", status=500)
+    
+def category_list_view(request):
+
+    try:
+        categories = Category.objects.all()
+        
+        context ={
+            "categories":categories,
+            
+        }
+        return render(request, 'core/category-list.html', context)
+
+    except Exception as e:
+        return HttpResponse(f"Error: {str(e)}", status=500)
