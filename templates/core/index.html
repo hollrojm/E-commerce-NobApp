@@ -51,7 +51,7 @@
         <!--End hero-->
         <section class="product-tabs section-padding position-relative">
           <div class="section-title style-2">
-            <h3>Popular Products</h3>
+            <h3>Productos Populares</h3>
             <ul class="nav nav-tabs links" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
                 <button
@@ -204,7 +204,9 @@
                       <div
                         class="product-badges product-badges-position product-badges-mrg"
                       >
-                        <span class="hot">Hot</span>
+                        <span class="hot"
+                          >-{{ product.get_percentage|floatformat:0 }}%</span
+                        >
                       </div>
                     </div>
                     <div class="product-content-wrap">
@@ -224,13 +226,19 @@
                       </div>
                       <div>
                         <span class="font-small text-muted"
-                          >By <a href="vendor-details-1.html">NestFood</a></span
+                          >Por
+                          <a href="vendor-details-1.html"
+                            >{{ product.vendor.vendor_name }}</a
+                          ></span
                         >
                       </div>
+
                       <div class="product-card-bottom">
                         <div class="product-price">
-                          <span>$28.85</span>
-                          <span class="old-price">$32.8</span>
+                          <span>${{ product.price }}</span>
+                          <span class="old-price"
+                            >${{ product.old_price }}</span
+                          >
                         </div>
                         <div class="add-cart">
                           <a class="add" href="shop-cart.html"

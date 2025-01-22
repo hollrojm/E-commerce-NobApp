@@ -6,6 +6,8 @@ from django.conf import settings
 from django.core.files.storage import default_storage
 import uuid
 import os
+from django.contrib import admin
+from django.utils.html import format_html
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -46,8 +48,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-
     objects = CustomUserManager()
+
+    @admin.display
+    def colored_name(self):
+        return format_html(
+            '<span style="color: #ff5733";">{} {}</span>',
+            self.name,
+            self.last_name,
+        )
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -68,5 +77,5 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
     def __str__(self):
-        return self.name
+        return self.email
 

@@ -4,9 +4,16 @@ from core.models import Category, Vendor, Product, CartOrder, CartOrderItems, Pr
 
 
 def index(request):
-    products = Product.objects.all().order_by("-id")
 
-    context ={
-        "products":products
-    }
-    return render(request, 'core/index.html', context)
+    try:
+        products = Product.objects.filter(product_status='Published', featured=True)
+        
+        context ={
+            "products":products,
+            
+        }
+        return render(request, 'core/index.html', context)
+
+    except Exception as e:
+        return HttpResponse(f"Error: {str(e)}", status=500)
+
