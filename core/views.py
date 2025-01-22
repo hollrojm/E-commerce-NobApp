@@ -17,3 +17,16 @@ def index(request):
     except Exception as e:
         return HttpResponse(f"Error: {str(e)}", status=500)
 
+def product_list_view(request):
+
+    try:
+        products = Product.objects.filter(product_status='Published')
+        
+        context ={
+            "products":products,
+            
+        }
+        return render(request, 'core/product-list.html', context)
+
+    except Exception as e:
+        return HttpResponse(f"Error: {str(e)}", status=500)
