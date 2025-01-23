@@ -42,6 +42,7 @@ class Category(models.Model):
     title = models.CharField(_('titulo'), max_length=100, default='Título de la categoría')
     image = models.ImageField(_('imagen_categoria'), upload_to='category', default='category.jpg')
     description = models.TextField(_('descripción'))
+    category_status = models.CharField(_('Estado de Categoria'),choices=STATUS, default='En revisión', max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -80,6 +81,7 @@ class Vendor (models.Model):
     days_return = models.IntegerField(_('Días de devolución'),default=30)
     warranty = models.CharField(_('Garantía'),max_length=100, default='Garantía de 6 meses')
     website = models.URLField(_('Sitio web'),max_length=100, default='https://www.example.com')
+    vendor_status = models.CharField(_('Estado de Vendedor'),choices=STATUS, default='En revisión', max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
