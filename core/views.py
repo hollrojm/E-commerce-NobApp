@@ -34,7 +34,7 @@ def product_list_view(request):
 def category_list_view(request):
 
     try:
-        categories = Category.objects.all()
+        categories = Category.objects.filter(category_status='Published')
         
         context ={
             "categories":categories,
