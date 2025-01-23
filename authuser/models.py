@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.files.storage import default_storage
 import uuid
 import os
+from django.utils.html import mark_safe
 from django.contrib import admin
 from django.utils.html import format_html
 
@@ -41,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('dirección email'), unique=True)
     name = models.CharField(_('nombre'), max_length=255, blank=True)
     last_name = models.CharField(_('apellido'), max_length=255, blank=True)
-    username = models.CharField(_('nombre de usuario'), max_length=255, blank=True)
+    username = models.CharField(_('nombre de usuario'), max_length=255, blank=True,default='default.png')
     phone_number = models.CharField(_('número de teléfono'), max_length=20, blank=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     is_superuser = models.BooleanField(default=False)
@@ -49,17 +50,21 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
     objects = CustomUserManager()
+    
+    
+    
 
     @admin.display
-    def colored_name(self):
+    def full_name(self):
         return format_html(
-            '<span style="color: #ff5733";">{} {}</span>',
+            '<span >{} {}</span>',
             self.name,
             self.last_name,
         )
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+    
     def save(self, *args, **kwargs):
         if self.pk and self.profile_picture.name != 'default.png':
             old_profile = User.objects.get(pk=self.pk)
@@ -74,7 +79,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = _('Usuario')
         verbose_name_plural = _('Usuarios')
 
-
+    def profile_image(self):
+        if self.profile_picture:
+            return mark_safe(f'<img src="{self.profile_picture.url}" width="50" height="50" />')
+        return mark_safe('<img src="/path/to/default/image.png" width="50" height="50" />')
 
     def __str__(self):
         return self.email
