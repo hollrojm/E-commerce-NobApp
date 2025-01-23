@@ -44,6 +44,7 @@ class Category(models.Model):
     description = models.TextField(_('descripción'))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
 
     class Meta:
         verbose_name = _('categoria')
@@ -103,21 +104,19 @@ class Product(models.Model):
     price = models.DecimalField(_('Precio'), max_digits=10, decimal_places=2, default=1.99)
     old_price = models.DecimalField(_('Precio Anterior'), max_digits=10, decimal_places=2, default=2.99)
     specifications = models.TextField(_('Especificaciones'),null=True, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="category", related_query_name="category")
     #tags = models.ForeignKey(Tags, on_delete=models.SET_NULL, null=True)
     in_stock = models.BooleanField(_('En Stock'), default=True)
     stock = models.IntegerField(_('Stock'))
-    product_status = models.CharField(choices=STATUS, default='En revisión', max_length=20)
+    product_status = models.CharField(_('Estado Del Producto'),choices=STATUS, default='En revisión', max_length=20)
     status = models.BooleanField(_('Estado'), default=True)
     featured = models.BooleanField(_('Destacado'), default=False)
     sku = ShortUUIDField(unique=True, length=4, max_length=20, prefix='sku_', alphabet='1234567890')
     digital = models.BooleanField(_('Digital'), default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    vendor = models.ForeignKey(Vendor ,on_delete=models.CASCADE)
+    vendor = models.ForeignKey(Vendor,  on_delete=models.CASCADE, related_name="vendor", related_query_name="vendor")
 
     class Meta:
         verbose_name = _('Producto')
