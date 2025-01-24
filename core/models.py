@@ -118,7 +118,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    vendor = models.ForeignKey(Vendor,  on_delete=models.CASCADE, related_name="vendor", related_query_name="vendor")
+    vendor = models.ForeignKey(Vendor,  on_delete=models.CASCADE, related_name="product", related_query_name="vendor")
 
     class Meta:
         verbose_name = _('Producto')
