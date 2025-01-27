@@ -84,7 +84,7 @@ class Vendor (models.Model):
     vendor_status = models.CharField(_('Estado de Vendedor'),choices=STATUS, default='En revisión', max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    date = models.DateField(auto_now_add=True, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:

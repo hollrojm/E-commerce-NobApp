@@ -2,8 +2,8 @@
     ("use strict");
     // Page loading
     $(window).on("load", function () {
-        $("#preloader-active").delay(450).fadeOut("slow");
-        $("body").delay(450).css({
+        $("#preloader-active").delay(550).fadeOut("slow");
+        $("body").delay(550).css({
             overflow: "visible"
         });
         $("#onloadModal").modal("show");
@@ -523,7 +523,7 @@
         }
     });
 
-    $('.btn-close').on('click', function(e) {
+    $('.btn-close').on('click', function (e) {
         $('.zoomContainer').remove();
     });
 
