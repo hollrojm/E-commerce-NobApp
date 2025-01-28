@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.html import mark_safe
 from django.contrib.auth import get_user_model
 
+
 User = get_user_model()
 
 STATUS_CHOICES = (
@@ -71,6 +72,7 @@ class Vendor (models.Model):
     vid = ShortUUIDField(unique=True, length=10, max_length=20, prefix='ven_', alphabet='abcdefgh12345')
     vendor_name = models.CharField(_('Vendedor'),max_length=100, default='Nombre del proveedor')
     logo = models.ImageField(_('Logo'),upload_to=user_directory_path, default='proveedor.jpg')
+    cover_image = models.ImageField(_('Imagen de Portada'),upload_to=user_directory_path, default='vendor.jpg')
     description = models.TextField(_('Descripción'),null=True, blank=True, default='Descripción del proveedor')
     address = models.CharField(_('Dirección'),max_length=255, default='Calle 6 sur # 71d - 77')
     contact = models.CharField(_('Contacto'),max_length=100, default='+57 (123) 4567890')
@@ -94,7 +96,7 @@ class Vendor (models.Model):
 
     def vendor_logo(self):
         return mark_safe(f'<img src="{self.logo.url}" width="100" height="100" />')
-
+    
     def __str__(self):
         return self.vendor_name
     
