@@ -86,3 +86,18 @@ def vendor_detail_view(request,vid):
             return render(request, 'core/vendor-detail.html', context)
         except Exception as e:
             return HttpResponse(f"Error: {str(e)}", status=500)
+        
+def product_detail_view(request,pid):
+        
+    try:
+        product = Product.objects.get(pid=pid)
+        product_images = ProductImages.objects.filter(product_id=product)
+        product_reviews = ProductReview.objects.filter(product_id=product)
+        context ={
+            "product":product,
+            "product_images":product_images,
+            "product_reviews":product_reviews,
+        }
+        return render(request, 'core/product-detail.html', context)
+    except Exception as e:
+        return HttpResponse(f"Error: {str(e)}", status=500)
