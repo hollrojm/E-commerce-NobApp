@@ -6055,8 +6055,10 @@ h6.post-title {
   margin-right: 70px;
 }
 .logo.logo-width-1 a img {
-  width: 180px;
-  min-width: 180px;
+  display: flex;
+  width: 300px;
+  min-width: 300px;
+ 
 }
 
 .search-style-1 form {
@@ -10130,6 +10132,7 @@ footer .hotline img {
     padding: 0;
   }
   .logo.logo-width-1 {
+    
     margin-right: 0;
     position: absolute;
     left: 50%;
@@ -10139,6 +10142,7 @@ footer .hotline img {
     width: 150px;
     min-width: 150px;
   }
+  
   .header-bottom {
     padding: 20px 0;
   }
