@@ -72,3 +72,17 @@ def vendor_list_view(request):
 
     except Exception as e:
         return HttpResponse(f"Error: {str(e)}", status=500)
+    
+
+def vendor_detail_view(request,vid):
+
+        try:
+            vendor = Vendor.objects.get(vid=vid)
+            products = Product.objects.filter(product_status='Published', vendor_id=vendor)
+            context ={
+                "vendor":vendor,
+                "products":products,
+            }
+            return render(request, 'core/vendor-detail.html', context)
+        except Exception as e:
+            return HttpResponse(f"Error: {str(e)}", status=500)
