@@ -91,7 +91,7 @@ def product_detail_view(request,pid):
         
     try:
         product = Product.objects.get(pid=pid)
-        product_images = ProductImages.objects.filter(product_id=product)
+        product_images = product.product_images.all()
         product_reviews = ProductReview.objects.filter(product_id=product)
         context ={
             "product":product,

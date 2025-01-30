@@ -47,7 +47,7 @@
             }
         });
         //Elevate Zoom
-        if ( $(".product-image-slider").length ) {
+        if ($(".product-image-slider").length) {
             if ($(window).width() > 768) {
                 $('.product-image-slider .slick-active img').elevateZoom({
                     zoomType: "inner",

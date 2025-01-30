@@ -141,8 +141,8 @@ class Product(models.Model):
     
 
 class ProductImages(models.Model):
-    image = models.ImageField(_('Imagen Producto'),upload_to='product-images', default='product.jpg')
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    images = models.ImageField(_('Imagen Producto'),upload_to='product-images', default='product.jpg')
+    product = models.ForeignKey(Product, related_name='product_images', on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
