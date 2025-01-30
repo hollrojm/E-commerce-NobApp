@@ -56,6 +56,7 @@
                     zoomWindowFadeOut: 750
                 });
             }
+
         }
         //Filter color/Size
         $('.list-filter').each(function () {

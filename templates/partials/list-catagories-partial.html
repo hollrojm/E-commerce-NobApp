@@ -1,0 +1,13 @@
+{% extends './base.html' %}
+{% block content %}
+  <div class="sidebar-widget widget-category-2 mb-30">
+    <h5 class="section-title style-1 mb-30">Category</h5>
+    <ul>
+      {% for category in categories %}
+        <li>
+          <a href="shop-grid-right.html"><img src="{{ category.image.url }}" alt="#" />{{ category.title }}</a><span class="count">{{ category.category.count }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
