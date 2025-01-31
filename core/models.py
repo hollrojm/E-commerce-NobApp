@@ -123,7 +123,6 @@ class Product(models.Model):
     product_title = models.CharField(_('Titulo Producto'),max_length=100, default='Título del producto')
     image = models.ImageField(_('Imagen'),upload_to=user_directory_path , default='product.jpg')
     description = models.TextField(_('Descripción'),max_length=255, default='Descripción del producto')
-    long_description = models.TextField(_('Descripción Larga'), default='Descripción Larga del producto')
     colores = models.ManyToManyField(Color, verbose_name='colores disponibles', blank=True)
     price = models.DecimalField(_('Precio'), max_digits=10, decimal_places=2, default=1.99)
     old_price = models.DecimalField(_('Precio Anterior'), max_digits=10, decimal_places=2, default=2.99)
