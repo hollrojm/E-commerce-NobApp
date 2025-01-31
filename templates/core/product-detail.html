@@ -96,10 +96,10 @@
                             Type: <span class="text-brand">{{ product.category }}</span>
                           </li>
                           <li class="mb-5">
-                            MFG:<span class="text-brand">{{ product.created_at|date:'M. j, Y' }}</span>
+                            MFG:<span class="text-brand">{{ product.mfd|date:'M. j, Y' }}</span>
                           </li>
                           <li>
-                            LIFE: <span class="text-brand">70 days</span>
+                            EDAD: <span class="text-brand">{{ product.get_edad_display }}</span>
                           </li>
                         </ul>
                         <ul class="float-start">

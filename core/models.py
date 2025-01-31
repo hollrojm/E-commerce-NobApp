@@ -34,6 +34,17 @@ RATING = (
     ('4', '★★★★☆'),
     ('5', '★★★★★'),
 )
+EDAD =(
+    ('1', '0-6 Meses'),
+    ('2', '6-12 Meses'),
+    ('3', '1-2 Años'),
+    ('4', '2-3 Años'),
+    ('5', '3-6 Años'),
+    ('6', '6-9 Años'),
+    ('7', '9-12 Años'),
+    ('7', '12+ Años'),
+    )
+
 
 def user_directory_path(instance, filename):
     return f'user_{0}/{1}'.format(instance.user.id, filename)
@@ -119,6 +130,8 @@ class Product(models.Model):
     specifications = models.TextField(_('Especificaciones'),null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="category", related_query_name="category")
     #tags = models.ForeignKey(Tags, on_delete=models.SET_NULL, null=True)
+    edad = models.CharField(_('Edad'),choices=EDAD, default='1', max_length=20)
+    mfd = models.DateField(_('Fecha de Fabricación'), auto_now_add=False, auto_now=False, null=True, blank=True)
     in_stock = models.BooleanField(_('En Stock'), default=True)
     stock = models.IntegerField(_('Stock'))
     product_status = models.CharField(_('Estado Del Producto'),choices=STATUS, default='En revisión', max_length=20)
