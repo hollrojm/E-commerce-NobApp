@@ -100,11 +100,20 @@ class Vendor (models.Model):
     def __str__(self):
         return self.vendor_name
     
+class Color(models.Model):
+    name = models.CharField(max_length=50, verbose_name='Nombre del color')
+    hex_code = models.CharField(max_length=7, verbose_name='Código_Hex', help_text="Ej: #FF0000")
+    
+    def __str__(self):
+        return self.name
+    
 class Product(models.Model):
     pid = ShortUUIDField(unique=True, length=10, max_length=20, prefix='pro_', alphabet='abcdefgh12345')
     product_title = models.CharField(_('Titulo Producto'),max_length=100, default='Título del producto')
     image = models.ImageField(_('Imagen'),upload_to=user_directory_path , default='product.jpg')
     description = models.TextField(_('Descripción'),max_length=255, default='Descripción del producto')
+    long_description = models.TextField(_('Descripción Larga'), default='Descripción Larga del producto')
+    colores = models.ManyToManyField(Color, verbose_name='colores disponibles', blank=True)
     price = models.DecimalField(_('Precio'), max_digits=10, decimal_places=2, default=1.99)
     old_price = models.DecimalField(_('Precio Anterior'), max_digits=10, decimal_places=2, default=2.99)
     specifications = models.TextField(_('Especificaciones'),null=True, blank=True)

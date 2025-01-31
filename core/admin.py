@@ -1,12 +1,16 @@
 from django.contrib import admin
-from core.models import Category, Vendor, Product, CartOrder, CartOrderItems, ProductImages, Wishlist, ProductReview,Address
+from core.models import Category, Color, Vendor, Product, CartOrder, CartOrderItems, ProductImages, Wishlist, ProductReview,Address
 
 class ProductImagesAdmin(admin.TabularInline):
     model = ProductImages
+
+class ColorAdmin(admin.ModelAdmin):
+    list_display = ('name', 'hex_code')
     
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImagesAdmin]
     list_display = ['user','product_title', 'product_image', 'price','category','vendor','featured','product_status', 'stock', 'created_at']
+    filter_horizontal = ['colores']
     list_per_page = 10
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -46,4 +50,5 @@ admin.site.register(ProductImages)
 admin.site.register(Wishlist, WishlistAdmin)
 admin.site.register(ProductReview, ProductReviewAdmin)
 admin.site.register(Address, AddressAdmin)
+admin.site.register(Color, ColorAdmin)
 admin.site.site_header = 'Artoys Ecommerce Admin'
