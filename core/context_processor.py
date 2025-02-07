@@ -2,6 +2,8 @@ from core.models import Category, Vendor, Product, CartOrder, CartOrderItems, Pr
 
 def categories(request):
     categories = Category.objects.filter(category_status='Published')
+    address = Address.objects.get(user= request.user)
     return {
-        "categories":categories
+        "categories":categories,
+        "address":address,
     }
